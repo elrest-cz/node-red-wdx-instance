@@ -1,0 +1,476 @@
+<style type="text/css">
+	.fa.disabled,
+	.fa[disabled],
+	.disabled>.fa,
+	[disabled]>.fa {
+		opacity: 0.5;
+		/*optional*/
+		cursor: not-allowed;
+		/*optional*/
+		pointer-events: none;
+	}
+</style>
+
+<script type="text/javascript">
+
+	RED.nodes.registerType('edesign.runtime.web-socket', {
+		category: 'config',
+		defaults: {
+			url: {
+				value: '',
+				required: true,
+				label: 'Server',
+				validate: RED.validators.regex(/^((?!\/debug\/ws).)*$/)
+			}
+		},
+		inputs: 0,
+		outputs: 0,
+		label: function () {
+			return this.url;
+		},
+
+		oneditprepare: function () {
+
+		},
+		oneditsave: function () {
+		}
+	});
+
+	/**
+	 * Common
+	 */
+	function startNode(node, customMsg) {
+		$.ajax({
+			url: "inject/" + node.id,
+			type: "POST",
+			data: JSON.stringify(customMsg || {}),
+			contentType: "application/json; charset=utf-8",
+			success: function (resp) {
+				RED.notify(node._("inject.success", { label: label }), { type: "success", id: "inject", timeout: 2000 });
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				if (jqXHR.status == 404) {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.not-deployed") }), "error");
+				} else if (jqXHR.status == 500) {
+					RED.notify(node._("common.notification.error", { message: node._("inject.errors.failed") }), "error");
+				} else if (jqXHR.status == 0) {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.no-response") }), "error");
+				} else {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.unexpected", { status: jqXHR.status, message: textStatus }) }), "error");
+				}
+			}
+		});
+	}
+
+	/**
+	 * Instances
+	 */
+
+	RED.nodes.registerType('edesign.runtime.instance.list', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "List",
+		label: "WDX Instance - List",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.detail', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			instanceUUID: {
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Detail",
+		label: "WDX - Instance - Detail",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.save', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Save",
+		label: "WDX Instance - Save",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.stop', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			instanceUUID: {
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Stop",
+		label: "WDX - Instance - Stop",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.start', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Start",
+		label: "WDX - Instance - Start",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.restart', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			instanceUUID: {
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Restart",
+		label: "WDX - Instance - Restart",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.delete', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			instanceUUID: {
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Success", "Error"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Delete",
+		label: "WDX - Instance - Delete",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.monitor', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			subscribed: {
+				type: "boolean",
+			}
+		},
+		inputs: 2,
+		outputs: 3,
+		inputLabels: ["Subscribe", "Unsubscribe"],
+		outputLabels: ["Success", "Error", "Complete"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Monitor",
+		label: "WDX - Instance - Monitor",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.instance.monitor-log', {
+		category: 'WDX Instance',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			uuid: {
+			},
+		},
+		inputs: 1,
+		outputs: 3,
+		outputLabels: ["Success", "Error", "Complete"],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Logs",
+		label: "WDX - Instance - Log",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.web-socket">
+
+	<div class="form-row">
+		<label for="node-config-input-url">
+			<i class="fa fa-bookmark"></i>
+			<span>Url</span>
+		</label>
+		<input id="node-config-input-url" type="text" placeholder="ws://localhost:8081">
+	</div>
+
+</script>
+
+<!-- Instances -->
+
+<script type="text/html" data-template-name="edesign.runtime.instance.list">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="edesign.runtime.instance.list">
+	<h2>WDX - Instance - List</h2>
+	<p>List instances</p>
+	<h2>Parameters</h2>
+	<p>none</p>
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.detail">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.start">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.save">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.stop">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.restart">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.delete">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.monitor">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-subscribe"><i class="fa fa-tag"></i>Subscribe</label>
+		<input type="checkbox" id="node-input-subscribe" placeholder="">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.instance.monitor-log">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-uuid"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-uuid" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<!-- Alarms-->
+
+<!-- Trends -->
