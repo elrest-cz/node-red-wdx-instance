@@ -1,4 +1,4 @@
-# Node RED - WDX - Instance
+# Wago - Node Red - WDX - Instance
 
 Node Red plugin WDX Instance palette with nodes implementing WDX WS Instance Interface communication within Node Red application.
 
@@ -16,11 +16,8 @@ Node Red plugin WDX Instance palette with nodes implementing WDX WS Instance Int
 ## Requirements
 + WDX Runtime - Docker or local WDX runtime installation.
 + Node-RED editor.
-+ Node-RED WDX Instance.
-
 
 ## Installation
-
 
 ### Node RED Palette Management Installation
 
@@ -55,7 +52,7 @@ yarn add @wago/node-red-wdx-instance
 
 To use WDX nodes in your Node-RED flow, follow these steps:
 
-1. Install the `@wago/node-red-wdx-palette` package in your Node-RED project.
+1. Install the `@wago/node-red-wdx-instance` package in your Node-RED project.
 2. Import the required nodes into your flow and configure the necessary WDX WS Client options.
 
 ![WDX Nodes - WS Client Configuration](./assets/images/ws-client-config.png)
@@ -69,6 +66,6 @@ For more examples see [example project](https://github.com/elrest-cz/wdx-node-re
 
 This library is licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License). See the [LICENSE.md](https://github.com/elrest-cz/wdx-ws-client-js/blob/master/LICENSE.md) file for more details.
 
-© 2024 
+© 2024 Elrest Automations Systeme GMBH
 
 This `README.md` provides a clear introduction to the TypeScript model schema library, with examples of how to use it, and includes the required copyright and licensing information under the MIT License.
