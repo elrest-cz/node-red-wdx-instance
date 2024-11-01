@@ -13,29 +13,6 @@
 
 <script type="text/javascript">
 
-	RED.nodes.registerType('edesign.runtime.web-socket', {
-		category: 'config',
-		defaults: {
-			url: {
-				value: '',
-				required: true,
-				label: 'Server',
-				validate: RED.validators.regex(/^((?!\/debug\/ws).)*$/)
-			}
-		},
-		inputs: 0,
-		outputs: 0,
-		label: function () {
-			return this.url;
-		},
-
-		oneditprepare: function () {
-
-		},
-		oneditsave: function () {
-		}
-	});
-
 	/**
 	 * Common
 	 */
@@ -66,13 +43,13 @@
 	 * Instances
 	 */
 
-	RED.nodes.registerType('edesign.runtime.instance.list', {
+	RED.nodes.registerType('wago.wdx.instance.list', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -89,13 +66,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.detail', {
+	RED.nodes.registerType('wago.wdx.instance.detail', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			instanceUUID: {
@@ -114,13 +91,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.save', {
+	RED.nodes.registerType('wago.wdx.instance.save', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -137,13 +114,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.stop', {
+	RED.nodes.registerType('wago.wdx.instance.stop', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			instanceUUID: {
@@ -162,13 +139,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.start', {
+	RED.nodes.registerType('wago.wdx.instance.start', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -185,13 +162,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.restart', {
+	RED.nodes.registerType('wago.wdx.instance.restart', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			instanceUUID: {
@@ -210,13 +187,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.delete', {
+	RED.nodes.registerType('wago.wdx.instance.delete', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			instanceUUID: {
@@ -235,13 +212,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.monitor', {
+	RED.nodes.registerType('wago.wdx.instance.monitor', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			subscribed: {
@@ -262,13 +239,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.instance.monitor-log', {
+	RED.nodes.registerType('wago.wdx.instance.monitor-log', {
 		category: 'WDX Instance',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			uuid: {
@@ -302,7 +279,7 @@
 
 <!-- Instances -->
 
-<script type="text/html" data-template-name="edesign.runtime.instance.list">
+<script type="text/html" data-template-name="wago.wdx.instance.list">
 
 	<div class="form-row">
 
@@ -316,14 +293,13 @@
 
 </script>
 
-<script type="text/html" data-help-name="edesign.runtime.instance.list">
-	<h2>WDX - Instance - List</h2>
-	<p>List instances</p>
+<script type="text/html" data-help-name="wago.wdx.instance.list">
+	<h2>WAGO - WDX - Instance - List</h2>
+	<p>Retrieves instance list from WDX</p>
 	<h2>Parameters</h2>
-	<p>none</p>
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.detail">
+<script type="text/html" data-template-name="wago.wdx.instance.detail">
 
 	<div class="form-row">
 
@@ -342,7 +318,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.start">
+<script type="text/html" data-help-name="wago.wdx.instance.detail">
+	<h2>WAGO - WDX - Instance - Detail</h2>
+	<p>Retrieves instance detail from WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.start">
 
 	<div class="form-row">
 
@@ -361,7 +343,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.save">
+<script type="text/html" data-help-name="wago.wdx.instance.start">
+	<h2>WAGO - WDX - Instance - Start</h2>
+	<p>Starts WDX Instance</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.save">
 
 	<div class="form-row">
 
@@ -375,45 +363,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.stop">
-
-	<div class="form-row">
-
-		<label for="node-input-client">
-			<i class="fa fa-bookmark"></i>
-			<span>Web Socket Client</span>
-		</label>
-		
-		<input type="text" id="node-input-client">
-	</div>
-
-	<div class="form-row">
-		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
-		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
-	</div>
-
+<script type="text/html" data-help-name="wago.wdx.instance.save">
+	<h2>WAGO - WDX - Instance - Save</h2>
+	<p>Stores instance in WDX</p>
+	<h2>Parameters</h2>
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.restart">
-
-	<div class="form-row">
-
-		<label for="node-input-client">
-			<i class="fa fa-bookmark"></i>
-			<span>Web Socket Client</span>
-		</label>
-		
-		<input type="text" id="node-input-client">
-	</div>
-
-	<div class="form-row">
-		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
-		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
-	</div>
-
-</script>
-
-<script type="text/html" data-template-name="edesign.runtime.instance.delete">
+<script type="text/html" data-template-name="wago.wdx.instance.stop">
 
 	<div class="form-row">
 
@@ -432,7 +388,63 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.monitor">
+<script type="text/html" data-help-name="wago.wdx.instance.stop">
+	<h2>WAGO - WDX - Instance - Stop</h2>
+	<p>Stops WDX instance</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.restart">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.instance.restart">
+	<h2>WAGO - WDX - Instance - Restart</h2>
+	<p>Restarts WDX instance</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.delete">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instanceUUID"><i class="fa fa-tag"></i>UUID</label>
+		<input type="text" id="node-input-instanceUUID" placeholder="Instance UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.instance.delete">
+	<h2>WAGO - WDX - Instance - Delete</h2>
+	<p>Deletes WDX instance</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.monitor">
 
 	<div class="form-row">
 
@@ -452,7 +464,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.instance.monitor-log">
+<script type="text/html" data-help-name="wago.wdx.instance.monitor">
+	<h2>WAGO - WDX - Instance - Delete</h2>
+	<p>Subscribe/Unsubscribe to WDX Instance monitor</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.instance.monitor-log">
 
 	<div class="form-row">
 
@@ -471,6 +489,8 @@
 
 </script>
 
-<!-- Alarms-->
-
-<!-- Trends -->
+<script type="text/html" data-help-name="wago.wdx.instance.monitor-log">
+	<h2>WAGO - WDX - Instance - Monitor Log</h2>
+	<p>Subscribe/Unsubscribe to WDX Instance log monitor</p>
+	<h2>Parameters</h2>
+</script>
