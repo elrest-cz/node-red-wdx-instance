@@ -100,6 +100,10 @@
 				type: "wago.wdx.web-socket",
 				required: true
 			},
+			instance: {
+				type: "json",
+				required: false,
+			},
 		},
 		inputs: 1,
 		outputs: 2,
@@ -228,7 +232,7 @@
 		inputs: 2,
 		outputs: 3,
 		inputLabels: ["Subscribe", "Unsubscribe"],
-		outputLabels: ["Success", "Error", "Complete"],
+		outputLabels: ["Update", "Error", "Complete"],
 		icon: "WagoLogo.svg",
 		paletteLabel: "Monitor",
 		label: "WDX - Instance - Monitor",
@@ -248,12 +252,12 @@
 				type: "wago.wdx.web-socket",
 				required: true
 			},
-			uuid: {
+			instanceUUID: {
 			},
 		},
 		inputs: 1,
 		outputs: 3,
-		outputLabels: ["Success", "Error", "Complete"],
+		outputLabels: ["Update", "Error", "Complete"],
 		icon: "WagoLogo.svg",
 		paletteLabel: "Logs",
 		label: "WDX - Instance - Log",
@@ -264,20 +268,6 @@
 		},
 	});
 </script>
-
-<script type="text/html" data-template-name="edesign.runtime.web-socket">
-
-	<div class="form-row">
-		<label for="node-config-input-url">
-			<i class="fa fa-bookmark"></i>
-			<span>Url</span>
-		</label>
-		<input id="node-config-input-url" type="text" placeholder="ws://localhost:8081">
-	</div>
-
-</script>
-
-<!-- Instances -->
 
 <script type="text/html" data-template-name="wago.wdx.instance.list">
 
@@ -294,9 +284,99 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.list">
+	
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - List</h2>
-	<p>Retrieves instance list from WDX</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - List<br />
+		<b>Description:</b> Lists WDX - Instance from WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dt>path<span class="property-type">string</span></dt>
+	<dd>WDX - Data - Schema - Path</dd>
+
+	<p>None</p>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload  as array of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - List node flow</b>
+
+			<p>
+				 Will lists WDX - Instance in WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-list.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"16a04210f2ab9917","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - List","style":{"label":true},"nodes":["981c98527ccd4616","f45cb44f51cddf31","4e782f862f8c2c01","5308b9f1af069c56","c32d827f43a331a1","25456a42a7acbd29"],"x":34,"y":1059,"w":1312,"h":242},{"id":"981c98527ccd4616","type":"inject","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"WDX Example - Instance List Request","props":[{"p":"payload"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":230,"y":1200,"wires":[["25456a42a7acbd29"]]},{"id":"f45cb44f51cddf31","type":"debug","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":1140,"wires":[]},{"id":"4e782f862f8c2c01","type":"debug","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":1260,"wires":[]},{"id":"5308b9f1af069c56","type":"comment","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"WDX Example - Instance List Response Message","info":"# WDX Example - Instance List Response Message","x":1100,"y":1100,"wires":[]},{"id":"c32d827f43a331a1","type":"comment","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"WDX Example - Instance List Error Response Message","info":"# WDX Example - Instance List Error  Response Message","x":1120,"y":1220,"wires":[]},{"id":"25456a42a7acbd29","type":"wago.wdx.instance.list","z":"1227002d3fc17664","g":"16a04210f2ab9917","name":"","client":"3949037aa7f8a94a","x":660,"y":1200,"wires":[["f45cb44f51cddf31"],["4e782f862f8c2c01"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.detail">
@@ -319,9 +399,101 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.detail">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Detail</h2>
-	<p>Retrieves instance detail from WDX</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Detail<br />
+		<b>Description:</b> Retrieves WDX - Instance from WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of detail <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Detail node flow</b>
+			<p>
+				 Will retrieve WDX - Instance from WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-detail.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"b7f69d4b605e6b87","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - Detail","style":{"label":true},"nodes":["6f23cc02ad162042","295a7cf30a7f91f9","2cb15ded04c4e4fc","ec934f8cfc538bfe","7e71196fa357997b","3d6d4b013873127a"],"x":34,"y":1959,"w":1332,"h":242},{"id":"6f23cc02ad162042","type":"inject","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"WDX Example - Instance Detail Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":240,"y":2100,"wires":[["3d6d4b013873127a"]]},{"id":"295a7cf30a7f91f9","type":"debug","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":2040,"wires":[]},{"id":"2cb15ded04c4e4fc","type":"debug","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":2160,"wires":[]},{"id":"ec934f8cfc538bfe","type":"comment","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"WDX Example - Instances - List Response Message","info":"# WDX Example - Instances - List Response Message","x":1110,"y":2000,"wires":[]},{"id":"7e71196fa357997b","type":"comment","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"WDX Example - Instances -  List Error Response Message","info":"# WDX Example - Instances -  List Error Response Message","x":1130,"y":2120,"wires":[]},{"id":"3d6d4b013873127a","type":"wago.wdx.instance.detail","z":"1227002d3fc17664","g":"b7f69d4b605e6b87","name":"","client":"3949037aa7f8a94a","instanceUUID":"","x":630,"y":2100,"wires":[["295a7cf30a7f91f9"],["2cb15ded04c4e4fc"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.start">
@@ -344,9 +516,101 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.start">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Start</h2>
-	<p>Starts WDX Instance</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Start<br />
+		<b>Description:</b> Starts WDX - Instance in WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of detail <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Start node flow</b>
+			<p>
+				 Will start WDX - Instance in WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-start.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"c94f912fd1c89e0c","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - Start","style":{"label":true},"nodes":["7ec80c5dce9532cc","b0b6deb8c4a19ecf","71b04eb11d685891","df56d7ce795a6998","5db4f403c217f4e3","97361046a22d02ac","9c519c9712838159","9e3b99b8fe86f6fa","c84a487167028096"],"x":34,"y":2339,"w":1332,"h":242},{"id":"7ec80c5dce9532cc","type":"inject","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":240,"y":2420,"wires":[["c84a487167028096"]]},{"id":"b0b6deb8c4a19ecf","type":"debug","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":2420,"wires":[]},{"id":"71b04eb11d685891","type":"debug","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":2540,"wires":[]},{"id":"df56d7ce795a6998","type":"comment","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Response Message","info":"# WDX Example - Instances - Start Response Message","x":1120,"y":2380,"wires":[]},{"id":"5db4f403c217f4e3","type":"comment","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Error Response Message","info":"# WDX Example - Instances - Start Error Response Message","x":1130,"y":2500,"wires":[]},{"id":"97361046a22d02ac","type":"comment","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Reuqest Message","info":"#WDX Example - Instances - Start Reuqest Message","x":250,"y":2380,"wires":[]},{"id":"9c519c9712838159","type":"inject","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Empty Request","props":[{"p":"instanceUUID","v":"","vt":"str"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":260,"y":2520,"wires":[["c84a487167028096"]]},{"id":"9e3b99b8fe86f6fa","type":"comment","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"WDX Example - Instances - Start Reuqest Message - Error","info":"WDX Example - Instances - Start Reuqest Message - Error","x":270,"y":2480,"wires":[]},{"id":"c84a487167028096","type":"wago.wdx.instance.start","z":"1227002d3fc17664","g":"c94f912fd1c89e0c","name":"","client":"3949037aa7f8a94a","x":620,"y":2460,"wires":[["b0b6deb8c4a19ecf"],["71b04eb11d685891"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.save">
@@ -359,14 +623,112 @@
 		</label>
 		
 		<input type="text" id="node-input-client">
+
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-instance"><i class="fa fa-tag"></i>Instance</label>
+		<input type="text" id="node-input-instance" placeholder="WDX - Instance - Model JSON">
 	</div>
 
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.save">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Save</h2>
-	<p>Stores instance in WDX</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Save<br />
+		<b>Description:</b> Stores WDX - Instance from WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instance<span class="property-type">json</span></dt>
+		<dd>WDX - Instance : <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">JSON Model</a></dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instance<span class="property-type">json</span></dt>
+				<dd>WDX - Instance : <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">JSON Model</a></dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of detail <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Save node flow</b>
+			<p>
+				 Will store WDX - Instance in WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-save.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"1a3ac7dde82ee6d8","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - Save","style":{"label":true},"nodes":["50751431d7511089","caf604e5f51a73f9","e271c178290df0f6","4fe9a4b27f71e4b3","32c00a0692d361d9","70079bcee3446c54"],"x":34,"y":679,"w":1332,"h":242},{"id":"50751431d7511089","type":"inject","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"WDX Example - Instances - Save Request","props":[{"p":"instance","v":"{\"name\":\"virtual-store\",\"executionOptions\":{\"mode\":\"worker\",\"script\":\"./node_modules/.bin/wdx-virtual\"},\"uuid\":\"b8ed912d-db48-4165-937c-6e7e039fedc9\",\"code\":\"Virtual\",\"dataSourceOptions\":{\"name\":\"default\"},\"namespace\":\"Virtual\",\"logOptions\":{\"level\":\"debug\",\"mergeLog\":true,\"mergeLogFile\":\"./logs/b8ed912d-db48-4165-937c-6e7e039fedc9.log\"},\"executionOption\":{\"mode\":\"worker\"}}","vt":"json"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":240,"y":820,"wires":[["70079bcee3446c54"]]},{"id":"caf604e5f51a73f9","type":"debug","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":760,"wires":[]},{"id":"e271c178290df0f6","type":"debug","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":880,"wires":[]},{"id":"4fe9a4b27f71e4b3","type":"comment","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"WDX Example - Instance Save Response Message","info":"# WDX Example - Instance Save Response Message","x":1110,"y":720,"wires":[]},{"id":"32c00a0692d361d9","type":"comment","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"WDX Example - Instance Save Error Response Message","info":"# WDX Example - Instance Error Save  Message","x":1130,"y":840,"wires":[]},{"id":"70079bcee3446c54","type":"wago.wdx.instance.save","z":"1227002d3fc17664","g":"1a3ac7dde82ee6d8","name":"","client":"3949037aa7f8a94a","instance":"","x":660,"y":820,"wires":[["caf604e5f51a73f9"],["e271c178290df0f6"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.stop">
@@ -389,9 +751,101 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.stop">
+	
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Stop</h2>
-	<p>Stops WDX instance</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Stop<br />
+		<b>Description:</b> Stops WDX - Instance in WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of detail <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Stop node flow</b>
+			<p>
+				 Will stop WDX - Instance in WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-stop.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"27fac8ad5c7bdfaf","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - Stop","style":{"label":true},"nodes":["3270ae38cfa83e32","83d2f89cb3afb24b","7bc8adc3741bf9d6","58f7f7659b6feea7","cf95db8b7ff937c0","0f4d66561e4384a9"],"x":34,"y":2719,"w":1332,"h":242},{"id":"3270ae38cfa83e32","type":"inject","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"WDX Example - Instances  - Stop Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":240,"y":2860,"wires":[["0f4d66561e4384a9"]]},{"id":"83d2f89cb3afb24b","type":"debug","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":2800,"wires":[]},{"id":"7bc8adc3741bf9d6","type":"debug","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":2920,"wires":[]},{"id":"58f7f7659b6feea7","type":"comment","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"WDX Example - Instances - Stop Response Message","info":"# WDX Example - Instances - Stop Response Message","x":1120,"y":2760,"wires":[]},{"id":"cf95db8b7ff937c0","type":"comment","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"WDX Example - Instances - Stop Error Response Message","info":"# WDX Example - Instances - Stop Error Response Message","x":1130,"y":2880,"wires":[]},{"id":"0f4d66561e4384a9","type":"wago.wdx.instance.stop","z":"1227002d3fc17664","g":"27fac8ad5c7bdfaf","name":"","client":"3949037aa7f8a94a","instanceUUID":"","x":600,"y":2860,"wires":[["83d2f89cb3afb24b"],["7bc8adc3741bf9d6"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.restart">
@@ -414,9 +868,101 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.restart">
+	
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Restart</h2>
-	<p>Restarts WDX instance</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Restart<br />
+		<b>Description:</b> Restarts WDX - Instance in WDX.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of detail <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Restart node flow</b>
+			<p>
+				 Will restarts WDX - Instance in WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-restart.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"709a64cd613f92aa","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instance - Restart","style":{"label":true},"nodes":["444f5899235a1cc9","c6ab5ffa61712e24","35c8d71eb50c4e34","f85c054ac238b10b","2e21db9c98c0bc34","f9fdf1a0aaafc4cd"],"x":34,"y":3099,"w":1352,"h":242},{"id":"444f5899235a1cc9","type":"inject","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"WDX Example - Instance Restart Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"},{"p":"topic","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":240,"y":3240,"wires":[["f9fdf1a0aaafc4cd"]]},{"id":"c6ab5ffa61712e24","type":"debug","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":3180,"wires":[]},{"id":"35c8d71eb50c4e34","type":"debug","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":3300,"wires":[]},{"id":"f85c054ac238b10b","type":"comment","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"WDX Example - Instances - Restart Response Message","info":"# WDX Example - Instances - Restart Response Message","x":1120,"y":3140,"wires":[]},{"id":"2e21db9c98c0bc34","type":"comment","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"WDX Example - Instances - Restart Error Response Message","info":"# WDX Example - Instances - Restart Error Response Message","x":1140,"y":3260,"wires":[]},{"id":"f9fdf1a0aaafc4cd","type":"wago.wdx.instance.restart","z":"1227002d3fc17664","g":"709a64cd613f92aa","name":"","client":"3949037aa7f8a94a","instanceUUID":"","x":590,"y":3240,"wires":[["c6ab5ffa61712e24"],["35c8d71eb50c4e34"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.delete">
@@ -439,9 +985,100 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.delete">
+	
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
 	<h2>WAGO - WDX - Instance - Delete</h2>
-	<p>Deletes WDX instance</p>
-	<h2>Parameters</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Delete<br />
+		<b>Description:</b> Deletes WDX - Instance from WDX.
+	</p>
+
+	<h3>Installation</h3>
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success response for this node. Output is flow message with payload of deleted <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Instance.md">WDX - Instance model</a>.</li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Delete node flow</b>
+			<p>
+				 Will delete WDX - Instance from WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-delete.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"ac1eef12b3e08136","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances - Delete","style":{"label":true},"nodes":["c0313ea8952a1a6b","46072db786dafdc0","299c54710a014212","7d1b8a2a088e9242","7b702f15070cf310","76b092d9c11ee3f6"],"x":34,"y":3479,"w":1352,"h":242},{"id":"c0313ea8952a1a6b","type":"inject","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"WDX Example - Instances -  Delete Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":250,"y":3620,"wires":[["76b092d9c11ee3f6"]]},{"id":"46072db786dafdc0","type":"debug","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":3560,"wires":[]},{"id":"299c54710a014212","type":"debug","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":3680,"wires":[]},{"id":"7d1b8a2a088e9242","type":"comment","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"WDX Example - Instances - Restart Response Message","info":"# WDX Example - Instances - Restart Response Message","x":1120,"y":3520,"wires":[]},{"id":"7b702f15070cf310","type":"comment","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"WDX Example - Instances - Restart Error Response Message","info":"# WDX Example - Instances - Restart Error Response Message","x":1140,"y":3640,"wires":[]},{"id":"76b092d9c11ee3f6","type":"wago.wdx.instance.delete","z":"1227002d3fc17664","g":"ac1eef12b3e08136","name":"","client":"3949037aa7f8a94a","instanceUUID":"","x":570,"y":3620,"wires":[["46072db786dafdc0"],["299c54710a014212"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.monitor">
@@ -465,9 +1102,101 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.monitor">
-	<h2>WAGO - WDX - Instance - Delete</h2>
-	<p>Subscribe/Unsubscribe to WDX Instance monitor</p>
-	<h2>Parameters</h2>
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
+	<h2>WAGO - WDX - Instance - Monitor</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Monitor<br />
+		<b>Description:</b> Subscribe/Unsubscribe to WDX - Instance - Monitor.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>subscribe<span class="property-type">boolean</span></dt>
+		<dd>WDX - Data - Instance - Monitor Subscribe/Unsubscribe</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>subscribe<span class="property-type">boolean</span></dt>
+				<dd>WDX - Data - Instance - Monitor Subscribe/Unsubscribe</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Update:</b> Success response for this node. Output is flow message with payload array of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.InstanceMonitor.md">WDX - Instance - Monitor  model</a>.</li>
+		<li><b>Completed:</b></li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Monitor node flow</b>
+			<p>
+				 Example contains Subscribe/Unsubscribe injection to this node.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-monitor.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"79e0992dd9874e19","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instances  - Monitor","style":{"label":true},"nodes":["ee768f451dc5d4fc","d9dd3bae630bd603","df19ee9df14d4bef","161e5c6a2869c29d","3df4dfb87ad2de1e","b4dfe1ac1751f171","f5fce07b9a8a3033","e328e9f17c646d04","cb3b1ce79e0d504c","9b4aab21a9c35edc","a9cd2a0b72383810"],"x":34,"y":179,"w":1312,"h":362},{"id":"ee768f451dc5d4fc","type":"inject","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Subscribe Monitor Request","props":[{"p":"payload"},{"p":"subscribe","v":"true","vt":"bool"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":250,"y":260,"wires":[["a9cd2a0b72383810"]]},{"id":"d9dd3bae630bd603","type":"comment","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Instances  - Subscribe Monitor","info":"# WDX Example - Instances  - Subscribe Monitor","x":230,"y":220,"wires":[]},{"id":"df19ee9df14d4bef","type":"debug","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":980,"y":260,"wires":[]},{"id":"161e5c6a2869c29d","type":"debug","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":970,"y":380,"wires":[]},{"id":"3df4dfb87ad2de1e","type":"inject","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Unsubscribe Monitor Request","props":[{"p":"payload"},{"p":"subscribe","v":"false","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","payload":"","payloadType":"date","x":250,"y":500,"wires":[["a9cd2a0b72383810"]]},{"id":"b4dfe1ac1751f171","type":"comment","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Instances - Unsubscribe Monitor","info":"# WDX Example - Instances - Unsubscribe Monitor","x":240,"y":460,"wires":[]},{"id":"f5fce07b9a8a3033","type":"debug","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"Completed","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"true","targetType":"full","statusVal":"","statusType":"auto","x":990,"y":500,"wires":[]},{"id":"e328e9f17c646d04","type":"comment","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Instance Monitor Message","info":"# WDX Example - Instance Monitor Message","x":1080,"y":220,"wires":[]},{"id":"cb3b1ce79e0d504c","type":"comment","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Instance Monitor Unsubscribe Message","info":"# WDX Example - Instance Monitor Unsubscribe Message","x":1120,"y":460,"wires":[]},{"id":"9b4aab21a9c35edc","type":"comment","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"WDX Example - Instance Monitor Error Message","info":"# WDX Example - Instance Monitor Error Message","x":1100,"y":340,"wires":[]},{"id":"a9cd2a0b72383810","type":"wago.wdx.instance.monitor","z":"1227002d3fc17664","g":"79e0992dd9874e19","name":"","client":"3949037aa7f8a94a","x":670,"y":380,"wires":[["df19ee9df14d4bef"],["161e5c6a2869c29d"],["f5fce07b9a8a3033"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.instance.monitor-log">
@@ -490,7 +1219,104 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.instance.monitor-log">
-	<h2>WAGO - WDX - Instance - Monitor Log</h2>
-	<p>Subscribe/Unsubscribe to WDX Instance log monitor</p>
-	<h2>Parameters</h2>
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
+	<h2>WAGO - WDX - Instance - Logs</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Instance - Logs<br />
+		<b>Description:</b> Subscribe/Unsubscribe to WDX - Instance - Logs.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-instance</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>instanceUUID<span class="property-type">string</span></dt>
+		<dd>WDX - Instance - UUID</dd>
+		<dt>subscribe<span class="property-type">boolean</span></dt>
+		<dd>WDX - Data - Instance - Monitor Log Subscribe/Unsubscribe</dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>instanceUUID<span class="property-type">string</span></dt>
+				<dd>WDX - Instance - UUID</dd>
+				<dt>subscribe<span class="property-type">boolean</span></dt>
+				<dd>WDX - Data - Instance - Monitor Log Subscribe/Unsubscribe</dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Update:</b> Success response for this node. Output is flow message with payload array of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Instance.Log.md">WDX - Instance - Log  model</a>.</li>
+		<li><b>Completed:</b></li>
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Instance - Log node flow</b>
+			<p>
+				 Example contains Subscribe/Unsubscribe injection to this node.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-instance/wdx-instance-delete.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"71b18b38521cb2cf","type":"group","z":"1227002d3fc17664","name":"WDX Example - Instance Log","style":{"label":true},"nodes":["ccdd3ce2c5924dfc","9bcb23b9606c7c3f","af4c762ae3084bfb","09c81a3ff9df186f","6979c3daa7aa02bb","0d8352b572f3dfdf","4e9bc2cea64c93fc","8dc6ef1d21b7a0f1","d240aadbcebcde1d","da55e669603bd127","2f3a57f8c40e8dfb"],"x":34,"y":1439,"w":1292,"h":362},{"id":"ccdd3ce2c5924dfc","type":"inject","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Subscribe Monitor Log Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"},{"p":"subscribe","v":"true","vt":"bool"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":260,"y":1520,"wires":[["2f3a57f8c40e8dfb"]]},{"id":"9bcb23b9606c7c3f","type":"comment","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Subscribe Instance Log","info":"# WDX Example - Subscribe Instance Log","x":210,"y":1480,"wires":[]},{"id":"af4c762ae3084bfb","type":"debug","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":1520,"wires":[]},{"id":"09c81a3ff9df186f","type":"debug","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":970,"y":1640,"wires":[]},{"id":"6979c3daa7aa02bb","type":"inject","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Unsubscribe Monitor Log Request","props":[{"p":"instanceUUID","v":"b8ed912d-db48-4165-937c-6e7e039fedc9","vt":"str"},{"p":"suvbscribe","v":"false","vt":"bool"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":270,"y":1760,"wires":[["2f3a57f8c40e8dfb"]]},{"id":"0d8352b572f3dfdf","type":"comment","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Unsubscribe Instance Log","info":"# WDX Example - Unsubscribe Instance Log","x":220,"y":1720,"wires":[]},{"id":"4e9bc2cea64c93fc","type":"debug","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"Complete","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":980,"y":1760,"wires":[]},{"id":"8dc6ef1d21b7a0f1","type":"comment","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Instance Log Message","info":"# WDX Example - Instance Log Message","x":1070,"y":1480,"wires":[]},{"id":"d240aadbcebcde1d","type":"comment","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Instance Log Error Message","info":"# WDX Example - Instance Log Error Message","x":1090,"y":1600,"wires":[]},{"id":"da55e669603bd127","type":"comment","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"WDX Example - Instance Log Completed Message","info":"# WDX Example - Instance Log Completed Message","x":1110,"y":1720,"wires":[]},{"id":"2f3a57f8c40e8dfb","type":"wago.wdx.instance.monitor-log","z":"1227002d3fc17664","g":"71b18b38521cb2cf","name":"","client":"3949037aa7f8a94a","uuid":"","x":640,"y":1640,"wires":[["af4c762ae3084bfb"],["09c81a3ff9df186f"],["4e9bc2cea64c93fc"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>401</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-instance">https://github.com/elrest-cz/node-red-wdx-instance</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-instance">https://www.npmjs.com/package/@wago/node-red-wdx-instance</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
 </script>
